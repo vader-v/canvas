@@ -48,20 +48,27 @@ let c = canvas.getContext('2d');
   }
 
   let maxRadius = 40;
-  let minRadius = 10;
+  let minRadius = 2;
 
   let colorArray = [
-    '#ffaa33',
-    '#99ffaaa',
-    '#00ff00',
-    '#4411aa',
-    '#ff1100'
+    '#184059',
+    '#0B1C26',
+    '#63CAF2',
+    '#79F2E6',
+    '#AFD9AD'
   ];
 
 
   window.addEventListener('mousemove', function (event) {
     mouse.x = event.x;
     mouse.y = event.y;
+  })
+
+  window.addEventListener('resize', function () {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    init();
   })
 
   class Circle {
@@ -71,6 +78,7 @@ let c = canvas.getContext('2d');
       this.dx = dx;
       this.dy = dy;
       this.radius = radius;
+      this.minRadius = radius;
       this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
       
       this.draw = function () {
@@ -95,7 +103,7 @@ let c = canvas.getContext('2d');
         if (this.radius < maxRadius) {
           this.radius += 1;
         }
-      } else if (this.radius > minRadius) {
+      } else if (this.radius > this.minRadius) {
         this.radius -= 1;
       }
 
@@ -107,14 +115,26 @@ let c = canvas.getContext('2d');
 
 let circleArray = [];
 
-for (let i = 0; i < 100; i++) {
-  let radius = 30;
+for (let i = 0; i < 900; i++) {
+  let radius = Math.random() * 3 + 1;
   let x = Math.random() * (innerWidth - radius * 2) + radius;
   let y = Math.random() * (innerHeight - radius * 2) + radius;
   let dx = (Math.random() - 0.5);
   let dy = (Math.random() - 0.5);
   circleArray.push(new Circle(x, y, dx, dy, radius));
 
+}
+
+function init() {
+  circleArray = [];
+  for (let i = 0; i < 900; i++) {
+    let radius = Math.random() * 3 + 1;
+    let x = Math.random() * (innerWidth - radius * 2) + radius;
+    let y = Math.random() * (innerHeight - radius * 2) + radius;
+    let dx = (Math.random() - 0.5);
+    let dy = (Math.random() - 0.5);
+    circleArray.push(new Circle(x, y, dx, dy, radius));
+  }
 }
 
 function animate() {
